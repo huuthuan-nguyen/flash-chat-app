@@ -1,7 +1,9 @@
 import 'package:flash_chat_app/components/rounded_button.dart';
 import 'package:flash_chat_app/constants.dart';
+import 'package:flash_chat_app/screens/chat_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const String id = "registration_screen";
@@ -10,6 +12,7 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   String? email;
   String? password;
 
@@ -35,6 +38,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 48,
             ),
             TextField(
+              keyboardType: TextInputType.emailAddress,
+              textAlign: TextAlign.center,
               onChanged: (value) {
                 email = value;
               },
@@ -46,6 +51,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 8,
             ),
             TextField(
+              obscureText: true,
+              textAlign: TextAlign.center,
               onChanged: (value) {
                 password = value;
               },
@@ -56,7 +63,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             RoundedButton(
               title: "Register",
               colour: Colors.blueAccent,
-              onPressed: () {},
+              onPressed: () async {
+                String emailInput = email.toString();
+                String passwordInput = password.toString();
+                try {
+                  final newUser = await _auth.createUserWithEmailAndPassword(
+                      email: emailInput, password: passwordInput);
+                  Navigator.pushNamed(context, ChatScreen.id);
+                } catch (e) {
+                  print(e);
+                }
+              },
             ),
           ],
         ),

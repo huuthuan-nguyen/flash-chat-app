@@ -32,6 +32,8 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 48,
             ),
             TextField(
+              textAlign: TextAlign.center,
+              keyboardType: TextInputType.emailAddress,
               onChanged: null,
               decoration:
                   kTextFieldDecoration.copyWith(hintText: "Enter your email"),
@@ -40,6 +42,8 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 8,
             ),
             TextField(
+              textAlign: TextAlign.center,
+              obscureText: true,
               onChanged: null,
               decoration: kTextFieldDecoration.copyWith(
                   hintText: "Enter your password"),
